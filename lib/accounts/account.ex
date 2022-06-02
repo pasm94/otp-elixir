@@ -4,6 +4,9 @@ defmodule Account do
   # {:ok, pid} = Account.start_link
   # GenServer.call(pid, :data)
 
+  # @impl true -> means that is a callback
+
+  @impl true
   def init(initial_state) do
     # send(self(), :start_account)
 
@@ -13,10 +16,12 @@ defmodule Account do
 
   def start_link(state \\ %{}), do: GenServer.start_link(__MODULE__, state)
 
+  @impl true
   def handle_info(:start_account, state) do
     {:noreply, start(state)}
   end
 
+  @impl true
   def handle_continue(:start_account, state) do
     {:noreply, start(state)}
   end
@@ -27,10 +32,12 @@ defmodule Account do
     Map.put(state, :started, DateTime.utc_now())
   end
 
+  @impl true
   def handle_call(:data, _from, state) do
     {:reply, state, state}
   end
 
+  @impl true
   def handle_cast({:purchase, key, value}, state) do
     {:noreply, Map.put(state, key, value)}
   end
