@@ -19,6 +19,7 @@ defmodule Account do
 
   def start_link(state \\ %{}), do: GenServer.start_link(__MODULE__, state)
 
+  # receive any message, ex: using send(), different from call and cast, because those should use .call and .cast
   @impl true
   def handle_info(:start_account, state) do
     {:noreply, start(state)}
