@@ -2,6 +2,9 @@ defmodule Account do
   use GenServer
 
   # {:ok, pid} = Account.start_link
+  # or
+  # {:ok, pid} = GenServer.start_link(Account, %{})
+
   # GenServer.call(pid, :data)
 
   # @impl true -> means that is a callback
@@ -32,11 +35,13 @@ defmodule Account do
     Map.put(state, :started, DateTime.utc_now())
   end
 
+  # sync
   @impl true
   def handle_call(:data, _from, state) do
     {:reply, state, state}
   end
 
+  # async
   @impl true
   def handle_cast({:purchase, key, value}, state) do
     {:noreply, Map.put(state, key, value)}
